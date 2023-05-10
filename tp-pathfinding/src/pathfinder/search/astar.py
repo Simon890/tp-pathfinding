@@ -45,7 +45,6 @@ class AStarSearch:
             if nodo.state == grid.end: return Solution(nodo, explored)
             neighbours = grid.get_neighbours(nodo.state)
             for position in neighbours:
-                print("COSTO", h(nodo.state, neighbours[position]))
                 child = Node("", neighbours[position], grid.get_cost(neighbours[position]) + h(neighbours[position]), nodo, position)
                 if child.state not in explored or child.cost < explored[child.state].cost:
                     explored[child.state] = child
