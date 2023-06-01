@@ -16,29 +16,33 @@ class BreadthFirstSearch:
         Solution: Solution found
         """
 
+        # inicializa la busqueda desde la raiz
         node = Node("", grid.start, 0)
-        # # Initialize the explored dictionary to be empty
+
         explored = {}
         explored[node.state] = True
 
         if node.state == grid.end: return Solution(node, explored)
 
-        frontier : QueueFrontier = QueueFrontier()
-
+        frontier = QueueFrontier()
         frontier.add(node)
+
         while True:
+            # recorre y elije un nodo de la frontera
             if frontier.is_empty(): return NoSolution(explored)
             nodo = frontier.remove()
-            neighbours = grid.get_neighbours(nodo.state)
             explored[nodo.state] = True
+            neighbours = grid.get_neighbours(nodo.state)
+
+            # expande el nodo seleccionado
             for position in neighbours:
-                child = Node("", neighbours[position], nodo.cost + grid.get_cost(neighbours[position]), nodo, position)
-                # print(explored)
+                child = Node("", neighbours[position],
+                             nodo.cost + grid.get_cost(neighbours[position]),
+                             nodo, position)
+                
                 if child.state == grid.end: return Solution(child, explored)
+
+                # añade el hijo a la frontera
                 if child.state not in explored:
                     explored[child.state] = True
                     frontier.add(child)
-
-        # Add the node to the explored dictionary
-
-        return NoSolution(explored)
